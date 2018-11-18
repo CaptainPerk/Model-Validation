@@ -12,19 +12,9 @@ namespace MvcModelValidation.Controllers
         [HttpPost]
         public ViewResult MakeBooking(Appointment appointment)
         {
-            if (string.IsNullOrEmpty(appointment.ClientName))
-            {
-                ModelState.AddModelError(nameof(appointment.ClientName), "Please enter your name");
-            }
-
             if (ModelState.GetValidationState(nameof(appointment.Date)) == ModelValidationState.Valid && DateTime.Now > appointment.Date)
             {
                 ModelState.AddModelError(nameof(appointment.Date), "Please enter a date in the future");
-            }
-
-            if (!appointment.TermsAccepted)
-            {
-                ModelState.AddModelError(nameof(appointment.TermsAccepted), "You must accept the terms");
             }
 
             if (ModelState.GetValidationState(nameof(appointment.Date)) == ModelValidationState.Valid &&
