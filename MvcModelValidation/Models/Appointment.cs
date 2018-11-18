@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MvcModelValidation.Infrastructure;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace MvcModelValidation.Models
@@ -11,7 +12,7 @@ namespace MvcModelValidation.Models
         [UIHint("Date")]
         [Required(ErrorMessage = "Please enter a date")]
         public DateTime Date { get; set; }
-        [Range(typeof(bool), "true", "true", ErrorMessage = "You must accept the terms")]
+        [MustBeTrue(ErrorMessage = "You must accept the terms")]
         public bool TermsAccepted { get; set; }
     }
 }
