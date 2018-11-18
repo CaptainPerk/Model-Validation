@@ -17,7 +17,7 @@ namespace MvcModelValidation.Controllers
                 ModelState.AddModelError(nameof(appointment.ClientName), "Please enter your name");
             }
 
-            if (ModelState.GetValidationState("Date") == ModelValidationState.Valid && DateTime.Now > appointment.Date)
+            if (ModelState.GetValidationState(nameof(appointment.Date)) == ModelValidationState.Valid && DateTime.Now > appointment.Date)
             {
                 ModelState.AddModelError(nameof(appointment.Date), "Please enter a date in the future");
             }
@@ -27,12 +27,15 @@ namespace MvcModelValidation.Controllers
                 ModelState.AddModelError(nameof(appointment.TermsAccepted), "You must accept the terms");
             }
 
-            if (!ModelState.IsValid)
+            if (ModelState.GetValidationState(nameof(appointment.Date)) == ModelValidationState.Valid &&
+                ModelState.GetValidationState(nameof(appointment.ClientName)) == ModelValidationState.Valid &&
+                appointment.ClientName.Equals("Joe", StringComparison.OrdinalIgnoreCase) &&
+                appointment.Date.DayOfWeek == DayOfWeek.Monday)
             {
-                return View();
+                ModelState.AddModelError("", "You can't book appointments on Mondays because you're always late");
             }
 
-            return View("Completed", appointment);
+            return !ModelState.IsValid ? View() : View("Completed", appointment);
         }
     }
 }
