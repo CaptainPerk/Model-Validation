@@ -1,6 +1,16 @@
 ﻿@model Appointment
 @{ Layout = "_Layout"; }
 
+@section scripts
+{
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("input.input-validation-error").closest(".form-group").addClass("has-danger");
+        });
+    </script>
+}
+
 <div class="bg-primary m-1 p-1 text-white">
     <h2>Book an Appointment</h2>
 </div>
