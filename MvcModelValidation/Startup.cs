@@ -8,7 +8,7 @@ namespace MvcModelValidation
     {
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc().AddMvcOptions(o => o.ModelBindingMessageProvider.SetValueMustNotBeNullAccessor(value => "Please enter a value"));
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
