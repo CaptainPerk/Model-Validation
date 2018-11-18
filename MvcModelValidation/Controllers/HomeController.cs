@@ -12,11 +12,6 @@ namespace MvcModelValidation.Controllers
         [HttpPost]
         public ViewResult MakeBooking(Appointment appointment)
         {
-            if (ModelState.GetValidationState(nameof(appointment.Date)) == ModelValidationState.Valid && DateTime.Now > appointment.Date)
-            {
-                ModelState.AddModelError(nameof(appointment.Date), "Please enter a date in the future");
-            }
-
             if (ModelState.GetValidationState(nameof(appointment.Date)) == ModelValidationState.Valid &&
                 ModelState.GetValidationState(nameof(appointment.ClientName)) == ModelValidationState.Valid &&
                 appointment.ClientName.Equals("Joe", StringComparison.OrdinalIgnoreCase) &&
@@ -26,6 +21,21 @@ namespace MvcModelValidation.Controllers
             }
 
             return !ModelState.IsValid ? View() : View("Completed", appointment);
+        }
+
+        public JsonResult ValidateDate(string Date)
+        {
+            if (!DateTime.TryParse(Date, out var parsedDate))
+            {
+                return Json("Please enter a valid date (mm/dd/yyyy)");
+            }
+
+            if (DateTime.Now > parsedDate)
+            {
+                return Json("Please enter a date in the future");
+            }
+
+            return Json(true);
         }
     }
 }
